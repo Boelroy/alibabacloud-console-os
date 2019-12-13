@@ -33,7 +33,8 @@ class Document{
         switch( name ){
           case 'body':
             return body;
-
+          case 'location':
+            return context.location
           case 'defaultView':
             return context.window;
 

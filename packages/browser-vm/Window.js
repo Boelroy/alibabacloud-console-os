@@ -1,8 +1,5 @@
 /**
  * Window.js
- * @lastModified 2019085
- * @forwardCompatibleTo 2019085
- * @createAt 2019085
  */
 
 class Window {
@@ -24,8 +21,14 @@ class Window {
         switch( name ){
           case 'document':
             return context.document;
+          case 'location':
+            return context.location;
           case '__CONSOLE_OS_GLOBAL_VARS_':
             return __CONSOLE_OS_GLOBAL_VARS_;
+        }
+
+        if (__CONSOLE_OS_GLOBAL_VARS_[name]) {
+          return __CONSOLE_OS_GLOBAL_VARS_[name];
         }
 
         if( typeof target[ name ] === 'function' && /^[a-z]/.test( name ) ){

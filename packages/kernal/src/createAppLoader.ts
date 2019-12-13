@@ -1,5 +1,5 @@
 import { loadBundle } from '@alicloud/console-os-loader';
-import { getFromCdn, invokeLifeCycle, getRealUrl } from './util';
+import { getFromCdn, invokeLifeCycle, getRealUrl, validateAppInstance } from './util';
 
 import { AppInfo, AppInstance, AppManifest } from './type';
 import { handleManifest } from './manifest';
@@ -28,10 +28,16 @@ const addStyles = (urls: string[], manifest: string) => {
  */
 export const loadExternal = async (appInfo: AppInfo, context: VMContext) => {
   return Promise.all(
-    appInfo.externals.map((external) => loadBundle({
-      ...external,
-      context,
-    }))
+    appInfo.externals.map((external) => {
+      if (!external.url) {
+        return Promise.resolve();
+      }
+      return loadBundle({
+        id: external.id,
+        url: external.url,
+        context,
+      });
+    })
   )
 }
 
@@ -60,7 +66,8 @@ export const createAppLoader = async (appInfo: AppInfo, context: VMContext) => {
 
       const { js, css } = handleManifest(manifest);
 
-      url = formatUrl(js[0], appInfo.manifest);
+      url = formatUrl(js[js.length - 1], appInfo.manifest);
+
       style = css;
     }
   }
@@ -71,19 +78,22 @@ export const createAppLoader = async (appInfo: AppInfo, context: VMContext) => {
 
   const appInstance = extractApp(
     await loadBundle<AppInstance>({
-      id, url, context,
+      id, url, context, deps: appInfo.deps
     })
   );
 
+  validateAppInstance(appInstance);
+
   return {
+    id,
+    name,
     bootstrap: [
-      ...appInstance.bootstrap
+      ...appInstance.bootstrap,
     ],
     mount: [
       async () => {
         await invokeLifeCycle(appInfo.appWillMount, appInstance);
       },
-      // TODO: load the context
       ...appInstance.mount,
       async () => {
         await invokeLifeCycle(appInfo.appDidMount, appInstance);
@@ -93,14 +103,7 @@ export const createAppLoader = async (appInfo: AppInfo, context: VMContext) => {
       async () => {
         await invokeLifeCycle(appInfo.appWillUnmount, appInstance);
       },
-
       ...appInstance.unmount,
-
-      async () => {
-        // TODO: clear context
-        // context.despose()
-      },
-
       async () => {
         await invokeLifeCycle(appInfo.appDidUnmount, appInstance)
       }

@@ -17,7 +17,7 @@ export interface AppInstance<T = any> extends LifeCycles<T> {
 
 export interface BasicModule {
   id: string;
-  url: string;
+  url?: string;
 }
 
 export interface AppInfo<T = any> extends BasicModule, ExtendsAppLifeCycles<T> {
@@ -29,6 +29,9 @@ export interface AppInfo<T = any> extends BasicModule, ExtendsAppLifeCycles<T> {
   customProps?: {
     [key: string]: any;
   };
+  deps?: {
+    [key: string]: any;
+  };
   activityFn: () => boolean;
 }
 
@@ -36,11 +39,20 @@ export interface AppCreationOption<E> {
   runtime: string;
 }
 
+export interface SandBoxOption {
+  disable?: boolean;
+  sandBoxUrl?: string;
+  singleton?: boolean;
+  initialPath?: string;
+  externalsVars?: string[];
+}
+
 export interface AppOption {
-  sandBox?: {
-    externalsVars: string[];
-  };
+  sandBox?: SandBoxOption;
   parcel?: boolean;
+  deps?: {
+    [key: string]: any;
+  };
 }
 
 export interface AppManifest {

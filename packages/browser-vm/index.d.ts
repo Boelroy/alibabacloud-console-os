@@ -4,12 +4,14 @@ interface VMContext {
   document: Document;
   history: History;
   location: Location;
+  baseFrame?: HTMLFrameElement;
 }
 
 interface ContextOption {
   initURL: string;
   body?: Element;
   externals?: string[];
+  url?: string;
 }
 
 interface BrowserVM {

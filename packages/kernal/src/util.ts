@@ -24,6 +24,12 @@ function smellsLikeAPromise(promise) {
   return promise && typeof promise.then === 'function' && typeof promise.catch === 'function';
 }
 
+export function validateAppInstance(appInstance: AppInstance) {
+  if (!appInstance.bootstrap && !appInstance.mount && !appInstance.unmount) {
+    throw new Error(`The app ${appInstance.id}'s export is invalid, you should export bootstrap, mount, unmount`)
+  }
+}
+
 export function flattenFnArray(fns, description) {
   fns = Array.isArray(fns) ? fns : [fns];
   if (fns.length === 0) {
@@ -54,6 +60,12 @@ export function flattenFnArray(fns, description) {
 }
 
 export const getRealUrl = (urlStr: string, base: string) => {
-  const url = new URL(urlStr, base);
+  // TODO: FUCK CODE
+  let sourceUrl = urlStr;
+  if (base.indexOf('dev.g.alicdn.com') !== -1) {
+    sourceUrl = urlStr.replace('g.alicdn.com', 'dev.g.alicdn.com');
+  }
+
+  const url = new URL(sourceUrl, base);
   return url.toString()
 };

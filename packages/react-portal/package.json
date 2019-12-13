@@ -1,9 +1,10 @@
 {
   "name": "@alicloud/console-os-react-portal",
-  "version": "0.1.0",
+  "version": "0.1.7",
   "description": "Console OS React Portal",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "typings": "lib/index.d.ts",
   "author": "Boelroy",
   "license": "MIT",
   "scripts": {
@@ -15,13 +16,15 @@
     "clean": "rm -rf lib yarn.lock"
   },
   "devDependencies": {
-    "@alicloud/console-toolkit": "^1.2.0",
-    "@alicloud/console-toolkit-preset-wind-component": "^1.2.1",
+    "@alicloud/console-toolkit-cli": "^1.0.0-rc.0",
+    "@alicloud/console-toolkit-preset-wind-component": "^1.0.0-rc.0",
     "@types/chai": "^4.1.7",
-    "@types/jest": "^23.3.13",
+    "@types/jest": "^24.0.23",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@types/single-spa-react": "^2.8.3",
+    "enzyme": "^3.10.0",
+    "history": "^4.10.1",
     "jest": "^23.6.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -35,5 +38,6 @@
   },
   "peerDependencies": {
     "react": "^16"
-  }
+  },
+  "gitHead": "298b4b2fb1b5d20a1b0efb2b1fdf226a3798ce6b"
 }

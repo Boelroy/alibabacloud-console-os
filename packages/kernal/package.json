@@ -1,9 +1,10 @@
 {
   "name": "@alicloud/console-os-kernal",
-  "version": "0.1.0",
+  "version": "0.1.14",
   "description": "Console OS Kernal",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "typings": "lib/index.d.ts",
   "author": "Boelroy",
   "license": "MIT",
   "scripts": {
@@ -15,8 +16,8 @@
     "clean": "rm -rf lib yarn.lock"
   },
   "devDependencies": {
-    "@alicloud/console-toolkit": "^1.2.0",
-    "@alicloud/console-toolkit-preset-wind-component": "^1.2.1",
+    "@alicloud/console-toolkit-cli": "^1.0.0-rc.0",
+    "@alicloud/console-toolkit-preset-wind-component": "^1.0.0-rc.0",
     "@types/axios": "^0.14.0",
     "@types/chai": "^4.1.7",
     "@types/jest": "^23.3.13",
@@ -26,9 +27,12 @@
     "typescript": "^3.0.3"
   },
   "dependencies": {
-    "@alicloud/console-os-browser-vm": "^0.1.7-alpha.1",
+    "@alicloud/console-os-browser-vm": "^0.1.14",
     "@alicloud/console-os-events": "^0.1.6",
     "@alicloud/console-os-loader": "^0.1.6",
+    "axios": "^0.19.0",
+    "lru-cache": "^5.1.1",
     "single-spa": "^4.3.7"
-  }
+  },
+  "gitHead": "298b4b2fb1b5d20a1b0efb2b1fdf226a3798ce6b"
 }

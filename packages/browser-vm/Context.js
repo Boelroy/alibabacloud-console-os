@@ -7,12 +7,13 @@
 
 import Window from './Window';
 import Document from './Document';
+import Location from './Location';
 
 class Context {
   constructor( conf, frame ){
-    this.window = new Window( conf, this, frame );
-    this.document = new Document( conf, this, frame );
-    this.location = this.window.location;
+    this.location = new Location(frame.contentWindow.location);
+    this.window = new Window( conf, this, frame, location);
+    this.document = new Document( conf, this, frame, location );
     this.history = this.window.history;
     this.baseFrame = frame;
     this.window.__IS_CONSOLE_OS_CONTEXT__ = true
@@ -35,7 +36,7 @@ class Context {
       const iframe = document.createElement( 'iframe' );
 
       // TODO: change src to a reasonable value.
-      iframe.setAttribute( 'src', '/api.json' );
+      iframe.setAttribute( 'src', conf.url ? conf.url : '/api.json');
       iframe.style.cssText = 'position: absolute; top: -20000px; width: 1px; height: 1px;';
 
       document.body.append( iframe );
